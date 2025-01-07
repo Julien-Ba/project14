@@ -1,5 +1,5 @@
-import 'home.scss';
+import './home.scss';
 
 export default function Home() {
-    return <></>;
+    return <main>Home</main>;
 }

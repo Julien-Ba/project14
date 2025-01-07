@@ -1,11 +1,18 @@
 import './App.scss';
-import PropTypes from 'prop-types';
-import Provider from 'jotai';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'jotai';
+import Home from './pages/home/Home';
+import EmployeeList from './pages/employeeList/employeeList';
 
-export default function App({ children }) {
-    return <Provider>{children}</Provider>;
+export default function App() {
+    return (
+        <Provider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/employeeList' element={<EmployeeList />} />
+                </Routes>
+            </BrowserRouter>
+        </Provider>
+    );
 }
-
-App.propTypes = {
-    children: PropTypes.node,
-};

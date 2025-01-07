@@ -1,5 +1,5 @@
-import 'employeeList.scss';
+import './employeeList.scss';
 
 export default function EmployeeList() {
-    return <></>;
+    return <main>EmployeeList</main>;
 }

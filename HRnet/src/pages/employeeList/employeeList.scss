@@ -1,0 +1,27 @@
+@use '../../style/colors';
+@use '../../style/placeholders';
+
+.employee-list {
+    @extend %flex-center;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+
+    &__title {
+        font-size: 3rem;
+        font-weight: 500;
+    }
+
+    &__link {
+        color: colors.$primary;
+        text-decoration: none;
+        font-size: 1.125rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: colors.$primary-hover;
+            text-decoration: underline;
+        }
+    }
+}

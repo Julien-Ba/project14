@@ -6,53 +6,170 @@ import { states } from '../../data/states';
 export default function Home() {
     return (
         <main className='home'>
-            <header>
-                <h1 className='title'>HRnet</h1>
-                <Link to={'/employeeList'}>View Current Employees</Link>
+            <header className='home__header'>
+                <h1 className='home__header-title'>HRnet</h1>
+                <Link to={'/employeeList'} className='home__header-link'>
+                    View Current Employees
+                </Link>
             </header>
-            <div className='form-container'>
-                <h2>Create Employee</h2>
-                <form action='#' id='create-employee'>
-                    <label htmlFor='first-name'>First Name</label>
-                    <input type='text' id='first-name' />
+            <div className='employee-form'>
+                <h2 className='employee-form__title'>Create Employee</h2>
+                <form
+                    className='employee-form__form'
+                    action='#'
+                    id='create-employee'
+                >
+                    <div className='employee-form__field'>
+                        <label
+                            className='employee-form__label'
+                            htmlFor='first-name'
+                        >
+                            First Name
+                        </label>
+                        <input
+                            className='employee-form__input'
+                            type='text'
+                            id='first-name'
+                        />
+                    </div>
 
-                    <label htmlFor='last-name'>Last Name</label>
-                    <input type='text' id='last-name' />
+                    <div className='employee-form__field'>
+                        <label
+                            className='employee-form__label'
+                            htmlFor='last-name'
+                        >
+                            Last Name
+                        </label>
+                        <input
+                            className='employee-form__input'
+                            type='text'
+                            id='last-name'
+                        />
+                    </div>
 
-                    <label htmlFor='date-of-birth'>Date of Birth</label>
-                    <input id='date-of-birth' type='text' />
+                    <div className='employee-form__field'>
+                        <label
+                            className='employee-form__label'
+                            htmlFor='date-of-birth'
+                        >
+                            Date of Birth
+                        </label>
+                        <input
+                            className='employee-form__input'
+                            id='date-of-birth'
+                            type='text'
+                        />
+                    </div>
 
-                    <label htmlFor='start-date'>Start Date</label>
-                    <input id='start-date' type='text' />
+                    <div className='employee-form__field'>
+                        <label
+                            className='employee-form__label'
+                            htmlFor='start-date'
+                        >
+                            Start Date
+                        </label>
+                        <input
+                            className='employee-form__input'
+                            id='start-date'
+                            type='text'
+                        />
+                    </div>
 
-                    <fieldset className='address'>
-                        <legend>Address</legend>
+                    <fieldset className='employee-form__fieldset'>
+                        <legend className='employee-form__legend'>
+                            Address
+                        </legend>
 
-                        <label htmlFor='street'>Street</label>
-                        <input id='street' type='text' />
+                        <div className='employee-form__field'>
+                            <label
+                                className='employee-form__label'
+                                htmlFor='street'
+                            >
+                                Street
+                            </label>
+                            <input
+                                className='employee-form__input'
+                                id='street'
+                                type='text'
+                            />
+                        </div>
 
-                        <label htmlFor='city'>City</label>
-                        <input id='city' type='text' />
+                        <div className='employee-form__field'>
+                            <label
+                                className='employee-form__label'
+                                htmlFor='city'
+                            >
+                                City
+                            </label>
+                            <input
+                                className='employee-form__input'
+                                id='city'
+                                type='text'
+                            />
+                        </div>
 
-                        <label htmlFor='state'>State</label>
-                        <select name='state' id='state'>
-                            {states.map((state) => (
-                                <option key={state.abbreviation}>
-                                    {state.name}
+                        <div className='employee-form__field'>
+                            <label
+                                className='employee-form__label'
+                                htmlFor='state'
+                            >
+                                State
+                            </label>
+                            <select
+                                className='employee-form__select'
+                                name='state'
+                                id='state'
+                            >
+                                {states.map((state) => (
+                                    <option
+                                        className='employee-form__option'
+                                        key={state.abbreviation}
+                                    >
+                                        {state.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className='employee-form__field'>
+                            <label
+                                className='employee-form__label'
+                                htmlFor='zip-code'
+                            >
+                                Zip Code
+                            </label>
+                            <input
+                                className='employee-form__input'
+                                id='zip-code'
+                                type='number'
+                            />
+                        </div>
+                    </fieldset>
+
+                    <div className='employee-form__field'>
+                        <label
+                            className='employee-form__label'
+                            htmlFor='department'
+                        >
+                            Department
+                        </label>
+                        <select
+                            className='employee-form__select'
+                            name='department'
+                            id='department'
+                        >
+                            {departments.map((department) => (
+                                <option
+                                    className='employee-form__option'
+                                    key={department}
+                                >
+                                    {department}
                                 </option>
                             ))}
                         </select>
+                    </div>
 
-                        <label htmlFor='zip-code'>Zip Code</label>
-                        <input id='zip-code' type='number' />
-                    </fieldset>
-
-                    <label htmlFor='department'>Department</label>
-                    <select name='department' id='department'>
-                        {departments.map((department) => (
-                            <option key={department}>{department}</option>
-                        ))}
-                    </select>
+                    <button className='employee-form__submit'>Save</button>
                 </form>
             </div>
         </main>

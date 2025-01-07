@@ -24,4 +24,51 @@
             text-decoration: underline;
         }
     }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: colors.$bg-white;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid colors.$border;
+        }
+
+        th {
+            background-color: colors.$bg-hover;
+            font-weight: 600;
+            color: colors.$text-grey;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: colors.$bg-hover;
+            }
+
+            &:last-child td {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            white-space: nowrap;
+        }
+    }
 }

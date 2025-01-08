@@ -1,7 +1,7 @@
 @use '../../style/colors';
 @use '../../style/placeholders';
 
-.home {
+.create-employee {
     @extend %flex-center;
     flex-direction: column;
     gap: 2rem;
@@ -30,7 +30,7 @@
         }
     }
 
-    .employee-form {
+    &-form {
         width: 100%;
         max-width: 800px;
         padding: 2rem;

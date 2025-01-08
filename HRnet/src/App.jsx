@@ -1,7 +1,7 @@
 import './App.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'jotai';
-import Home from './pages/home/Home';
+import CreateEmployee from './pages/createEmployee/CreateEmployee';
 import EmployeeList from './pages/employeeList/employeeList';
 
 export default function App() {
@@ -9,7 +9,7 @@ export default function App() {
         <Provider>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<Home />} />
+                    <Route path='/' element={<CreateEmployee />} />
                     <Route path='/employeeList' element={<EmployeeList />} />
                 </Routes>
             </BrowserRouter>

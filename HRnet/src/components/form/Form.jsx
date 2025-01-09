@@ -14,17 +14,22 @@ export default function Form({ name, fields, onSubmit }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(formData[camelFormName]);
-        setFormData({
-            ...formData,
-            [camelFormName]: Object.keys(formData[camelFormName]).reduce(
-                (acc, key) => ({
-                    ...acc,
-                    [key]: '',
-                }),
-                {}
-            ),
-        });
+        const result = onSubmit(formData[camelFormName]);
+        if (result.isValid)
+            setFormData({
+                ...formData,
+                [camelFormName]: Object.keys(formData[camelFormName]).reduce(
+                    (acc, key) => ({
+                        ...acc,
+                        [key]: '',
+                    }),
+                    {}
+                ),
+            });
+        if (result.error) {
+            console.log(result.error);
+            return;
+        }
     };
 
     return (
@@ -33,19 +38,9 @@ export default function Form({ name, fields, onSubmit }) {
             <form action='' onSubmit={handleSubmit} className={`${kebabFormName}-form__form`}>
                 {fields.map((field) =>
                     field.type === 'fieldset' ? (
-                        <FormFieldSet
-                            key={field.name}
-                            fields={field.fields}
-                            fieldsetName={field.name}
-                            formName={name}
-                        />
+                        <FormFieldSet key={field.name} formName={name} fieldset={field} />
                     ) : (
-                        <FormField
-                            key={field.name}
-                            {...field}
-                            fieldName={field.name}
-                            formName={name}
-                        />
+                        <FormField key={field.name} formName={name} field={field} />
                     )
                 )}
                 <button className={`${kebabFormName}-form__submit`}>Save</button>

@@ -1,6 +1,7 @@
 import { departments } from '../../data/departments';
 import { states } from '../../data/states';
 import Form from '../../components/form/Form';
+import submitEmployeeCreation from './createEmployeeFormSubmit';
 
 export default function CreateEmployeeForm() {
     const employeeFields = [
@@ -28,8 +29,6 @@ export default function CreateEmployeeForm() {
             options: departments,
         },
     ];
-
-    function submitEmployeeCreation() {}
 
     return (
         <Form name='create_employee' fields={employeeFields} onSubmit={submitEmployeeCreation} />

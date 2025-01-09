@@ -1,5 +1,7 @@
 import { atom } from 'jotai';
 import { employees } from '../data/mockEmployeeList';
+import { departments } from '../data/departments';
+import { states } from '../data/states';
 
 export const formDataAtom = atom({
     createEmployee: {
@@ -7,13 +9,11 @@ export const formDataAtom = atom({
         lastName: '',
         dateOfBirth: '',
         startDate: '',
-        address: {
-            street: '',
-            city: '',
-            state: '',
-            zipCode: '',
-        },
-        department: '',
+        street: '',
+        city: '',
+        state: states[0].name,
+        zipCode: '',
+        department: departments[0],
     },
 });
 

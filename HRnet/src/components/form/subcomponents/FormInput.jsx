@@ -17,13 +17,13 @@ export default function FormInput({ type, inputName, formName, ...props }) {
             type={type ? type : 'text'}
             id={`${kebabFormName}-${kebabInputName}`}
             {...props}
-            value={formData[camelFormName][camelInputName]}
-            onChange={(value) =>
+            value={formData[camelFormName]?.[camelInputName] || ''}
+            onChange={(event) =>
                 setFormData({
                     ...formData,
                     [camelFormName]: {
                         ...formData[camelFormName],
-                        [camelInputName]: value,
+                        [camelInputName]: event.target.value,
                     },
                 })
             }

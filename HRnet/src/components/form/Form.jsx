@@ -1,13 +1,20 @@
 import './form.scss';
 import PropTypes from 'prop-types';
-import { useAtom } from 'jotai';
-import { formDataAtom } from '../../store/atoms';
+import { useAtom, useAtomValue } from 'jotai';
+import { defaultFormDataAtom, formDataAtom } from '../../store/atoms';
 import { snakeToCamel, snakeToKebab, snakeToTitle } from '../../utils/stringsFormat';
 import FormFieldSet from './subcomponents/FormFieldset';
 import FormField from './subcomponents/FormField';
+import { useEffect } from 'react';
 
 export default function Form({ name, fields, onSubmit }) {
+    const defaultFormData = useAtomValue(defaultFormDataAtom);
     const [formData, setFormData] = useAtom(formDataAtom);
+
+    useEffect(() => {
+        console.table(formData);
+    }, [formData]);
+
     const camelFormName = snakeToCamel(name);
     const kebabFormName = snakeToKebab(name);
     const titleFormName = snakeToTitle(name);
@@ -15,19 +22,16 @@ export default function Form({ name, fields, onSubmit }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const result = onSubmit(formData[camelFormName]);
-        if (result.isValid)
+        if (result.isValid) {
             setFormData({
                 ...formData,
-                [camelFormName]: Object.keys(formData[camelFormName]).reduce(
-                    (acc, key) => ({
-                        ...acc,
-                        [key]: '',
-                    }),
-                    {}
-                ),
+                [camelFormName]: { ...defaultFormData[camelFormName] },
             });
+            console.log('isValid');
+            return;
+        }
         if (result.error) {
-            console.log(result.error);
+            console.log(`${result.error.fieldName} ${result.error.error}`);
             return;
         }
     };

@@ -3,7 +3,7 @@ import { employees } from '../data/mockEmployeeList';
 import { departments } from '../data/departments';
 import { states } from '../data/states';
 
-export const formDataAtom = atom({
+const privateDefaultFormData = {
     createEmployee: {
         firstName: '',
         lastName: '',
@@ -15,6 +15,9 @@ export const formDataAtom = atom({
         zipCode: '',
         department: departments[0],
     },
-});
+};
+
+export const defaultFormDataAtom = atom(privateDefaultFormData);
+export const formDataAtom = atom({ ...privateDefaultFormData });
 
 export const employeeListAtom = atom(employees);

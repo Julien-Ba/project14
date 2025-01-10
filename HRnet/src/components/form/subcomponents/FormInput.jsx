@@ -1,10 +1,11 @@
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import PropTypes from 'prop-types';
-import { formDataAtom } from '../../../store/atoms';
+import { formDataAtom, formErrorAtom } from '../../../store/atoms';
 import { snakeToCamel, snakeToKebab } from '../../../utils/stringsFormat';
 
 export default function FormInput({ type, inputName, formName, ...props }) {
     const [formData, setFormData] = useAtom(formDataAtom);
+    const setFormError = useSetAtom(formErrorAtom);
 
     const camelFormName = snakeToCamel(formName);
     const kebabFormName = snakeToKebab(formName);
@@ -18,15 +19,16 @@ export default function FormInput({ type, inputName, formName, ...props }) {
             id={`${kebabFormName}-${kebabInputName}`}
             {...props}
             value={formData[camelFormName]?.[camelInputName] || ''}
-            onChange={(event) =>
+            onChange={(event) => {
+                setFormError({});
                 setFormData({
                     ...formData,
                     [camelFormName]: {
                         ...formData[camelFormName],
                         [camelInputName]: event.target.value,
                     },
-                })
-            }
+                });
+            }}
         />
     );
 }

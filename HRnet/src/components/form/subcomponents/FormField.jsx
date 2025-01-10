@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
 import FormInput from './FormInput';
 import FormSelect from './FormSelect';
-import { snakeToKebab, snakeToTitle } from '../../../utils/stringsFormat';
+import { useAtomValue } from 'jotai';
+import { formErrorAtom } from '../../../store/atoms';
+import { snakeToCamel, snakeToKebab, snakeToTitle } from '../../../utils/stringsFormat';
 
 export default function FormField({ formName, field, ...props }) {
+    const formError = useAtomValue(formErrorAtom);
     const kebabFormName = snakeToKebab(formName);
+    const camelFieldName = snakeToCamel(field.name);
     const titleFieldName = snakeToTitle(field.name);
 
     return (
@@ -25,6 +29,7 @@ export default function FormField({ formName, field, ...props }) {
                     {...props}
                 />
             )}
+            {formError[camelFieldName] && <div className='error'>{formError[camelFieldName]}</div>}
         </div>
     );
 }

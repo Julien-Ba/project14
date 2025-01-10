@@ -1,15 +1,16 @@
 import './form.scss';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAtom, useAtomValue } from 'jotai';
-import { defaultFormDataAtom, formDataAtom } from '../../store/atoms';
+import { defaultFormDataAtom, formDataAtom, formErrorAtom } from '../../store/atoms';
 import { snakeToCamel, snakeToKebab, snakeToTitle } from '../../utils/stringsFormat';
 import FormFieldSet from './subcomponents/FormFieldset';
 import FormField from './subcomponents/FormField';
-import { useEffect } from 'react';
 
-export default function Form({ name, fields, onSubmit }) {
+export default function Form({ name, fields, onSubmit, ...props }) {
     const defaultFormData = useAtomValue(defaultFormDataAtom);
     const [formData, setFormData] = useAtom(formDataAtom);
+    const [formError, setFormError] = useAtom(formErrorAtom);
 
     useEffect(() => {
         console.table(formData);
@@ -21,17 +22,20 @@ export default function Form({ name, fields, onSubmit }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setFormError({});
         const result = onSubmit(formData[camelFormName]);
         if (result.isValid) {
             setFormData({
                 ...formData,
                 [camelFormName]: { ...defaultFormData[camelFormName] },
             });
-            console.log('isValid');
             return;
         }
         if (result.error) {
-            console.log(`${result.error.fieldName} ${result.error.error}`);
+            setFormError({
+                ...formError,
+                [result.error.fieldName]: result.error.error,
+            });
             return;
         }
     };
@@ -42,9 +46,14 @@ export default function Form({ name, fields, onSubmit }) {
             <form action='' onSubmit={handleSubmit} className={`${kebabFormName}-form__form`}>
                 {fields.map((field) =>
                     field.type === 'fieldset' ? (
-                        <FormFieldSet key={field.name} formName={name} fieldset={field} />
+                        <FormFieldSet
+                            key={field.name}
+                            formName={name}
+                            fieldset={field}
+                            {...props}
+                        />
                     ) : (
-                        <FormField key={field.name} formName={name} field={field} />
+                        <FormField key={field.name} formName={name} field={field} {...props} />
                     )
                 )}
                 <button className={`${kebabFormName}-form__submit`}>Save</button>

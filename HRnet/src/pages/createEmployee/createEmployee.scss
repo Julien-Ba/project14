@@ -162,5 +162,13 @@
                 box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
             }
         }
+
+        .error {
+            display: block;
+            color: colors.$error;
+            font-size: 0.875rem;
+            margin: 0.5rem 0 0 1rem;
+            font-weight: 500;
+        }
     }
 }

@@ -1,13 +1,9 @@
-import { useSetAtom } from 'jotai';
-import { employeeListAtom } from '../../store/atoms';
 import { departments } from '../../data/departments';
 import { states } from '../../data/states';
 import Form from '../../components/form/Form';
 import submitEmployeeCreation from './createEmployeeFormSubmit';
 
 export default function CreateEmployeeForm() {
-    const setEmployeeList = useSetAtom(employeeListAtom);
-
     const employeeFields = [
         { name: 'first_name' },
         { name: 'last_name' },
@@ -35,10 +31,6 @@ export default function CreateEmployeeForm() {
     ];
 
     return (
-        <Form
-            name='create_employee'
-            fields={employeeFields}
-            onSubmit={(event) => submitEmployeeCreation(event, setEmployeeList)}
-        />
+        <Form name='create_employee' fields={employeeFields} onSubmit={submitEmployeeCreation} />
     );
 }

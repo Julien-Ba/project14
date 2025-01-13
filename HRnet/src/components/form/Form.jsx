@@ -20,10 +20,10 @@ export default function Form({ name, fields, onSubmit, ...props }) {
     const kebabFormName = snakeToKebab(name);
     const titleFormName = snakeToTitle(name);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setFormError({});
-        const result = onSubmit(formData[camelFormName]);
+        const result = await onSubmit(formData[camelFormName]);
         if (result.isValid) {
             setFormData({
                 ...formData,

@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
-import { employees } from '../data/mockEmployeeList';
 import { departments } from '../data/departments';
 import { states } from '../data/states';
+import { employeeService } from '../services/api/employee';
 
 const privateDefaultFormData = {
     createEmployee: {
@@ -21,4 +21,11 @@ export const defaultFormDataAtom = atom(privateDefaultFormData);
 export const formDataAtom = atom({ ...privateDefaultFormData });
 export const formErrorAtom = atom({});
 
-export const employeeListAtom = atom(employees);
+const employeeList = await employeeService.getAllEmployees();
+if (employeeList.success) {
+    console.log('Employees found:', employeeList.data);
+} else {
+    console.error('Error:', employeeList.error);
+}
+
+export const employeeListAtom = atom(employeeList.data);

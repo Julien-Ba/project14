@@ -1,9 +1,9 @@
 import './form.scss';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { convertString } from 'str-case-converter';
 import { useAtom, useAtomValue } from 'jotai';
 import { defaultFormDataAtom, formDataAtom, formErrorAtom } from '../../store/atoms';
-import { snakeToCamel, snakeToKebab, snakeToTitle } from '../../utils/stringsFormat';
 import FormFieldSet from './subcomponents/FormFieldset';
 import FormField from './subcomponents/FormField';
 
@@ -16,9 +16,9 @@ export default function Form({ name, fields, onSubmit, ...props }) {
         console.table(formData);
     }, [formData]);
 
-    const camelFormName = snakeToCamel(name);
-    const kebabFormName = snakeToKebab(name);
-    const titleFormName = snakeToTitle(name);
+    const camelFormName = convertString.toCamel(name);
+    const kebabFormName = convertString.toKebab(name);
+    const titleFormName = convertString.toTitle(name);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

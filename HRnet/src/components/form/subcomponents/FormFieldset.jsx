@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import FormField from './FormField';
-import { snakeToKebab, snakeToTitle } from '../../../utils/stringsFormat';
+import { convertString } from 'str-case-converter';
 
 export default function FormFieldset({ formName, fieldset, ...props }) {
-    const kebabFormName = snakeToKebab(formName);
-    const titleFieldsetName = snakeToTitle(fieldset.name);
+    const kebabFormName = convertString.toKebab(formName);
+    const titleFieldsetName = convertString.toTitle(fieldset.name);
 
     return (
         <fieldset className={`${kebabFormName}-form__fieldset`}>

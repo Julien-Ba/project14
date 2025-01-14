@@ -1,16 +1,16 @@
 import { useAtom, useSetAtom } from 'jotai';
 import PropTypes from 'prop-types';
 import { formDataAtom, formErrorAtom } from '../../../store/atoms';
-import { snakeToCamel, snakeToKebab } from '../../../utils/stringsFormat';
+import { convertString } from 'str-case-converter';
 
 export default function FormInput({ type, inputName, formName, ...props }) {
     const [formData, setFormData] = useAtom(formDataAtom);
     const setFormError = useSetAtom(formErrorAtom);
 
-    const camelFormName = snakeToCamel(formName);
-    const kebabFormName = snakeToKebab(formName);
-    const camelInputName = snakeToCamel(inputName);
-    const kebabInputName = snakeToKebab(inputName);
+    const camelFormName = convertString.toCamel(formName);
+    const kebabFormName = convertString.toKebab(formName);
+    const camelInputName = convertString.toCamel(inputName);
+    const kebabInputName = convertString.toKebab(inputName);
 
     return (
         <input

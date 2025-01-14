@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import { useAtom } from 'jotai';
 import { formDataAtom } from '../../../store/atoms';
-import { snakeToCamel, snakeToKebab } from '../../../utils/stringsFormat';
+import { convertString } from 'str-case-converter';
 
 export default function FormSelect({ options, selectName, formName, ...props }) {
     const [formData, setFormData] = useAtom(formDataAtom);
 
-    const camelFormName = snakeToCamel(formName);
-    const kebabFormName = snakeToKebab(formName);
-    const camelSelectName = snakeToCamel(selectName);
-    const kebabSelectName = snakeToKebab(selectName);
+    const camelFormName = convertString.toCamel(formName);
+    const kebabFormName = convertString.toKebab(formName);
+    const camelSelectName = convertString.toCamel(selectName);
+    const kebabSelectName = convertString.toKebab(selectName);
 
     return (
         <select

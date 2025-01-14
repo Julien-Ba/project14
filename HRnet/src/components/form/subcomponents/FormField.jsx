@@ -3,13 +3,13 @@ import FormInput from './FormInput';
 import FormSelect from './FormSelect';
 import { useAtomValue } from 'jotai';
 import { formErrorAtom } from '../../../store/atoms';
-import { snakeToCamel, snakeToKebab, snakeToTitle } from '../../../utils/stringsFormat';
+import { convertString } from 'str-case-converter';
 
 export default function FormField({ formName, field, ...props }) {
     const formError = useAtomValue(formErrorAtom);
-    const kebabFormName = snakeToKebab(formName);
-    const camelFieldName = snakeToCamel(field.name);
-    const titleFieldName = snakeToTitle(field.name);
+    const kebabFormName = convertString.toKebab(formName);
+    const camelFieldName = convertString.toCamel(field.name);
+    const titleFieldName = convertString.toTitle(field.name);
 
     return (
         <div className={`${kebabFormName}-form__field`}>

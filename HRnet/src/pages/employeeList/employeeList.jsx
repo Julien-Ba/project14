@@ -6,7 +6,9 @@ import Table from '../../components/table/Table';
 
 export default function EmployeeList() {
     const employeeList = useAtomValue(employeeListAtom);
-    const trimmedEmployeeList = employeeList.map(({ _id, __v, ...rest }) => rest);
+    const trimmedEmployeeList = employeeList
+        ? employeeList.map(({ _id, __v, ...rest }) => rest)
+        : [];
 
     return (
         <main className='employee-list'>

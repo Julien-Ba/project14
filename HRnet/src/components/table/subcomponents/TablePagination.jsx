@@ -8,11 +8,20 @@ export default function TablePagination({
     totalItems,
     onPageChange,
 }) {
+    function renderPageCount() {
+        if (totalPages > 1)
+            return (
+                <>
+                    {(currentPage - 1) * itemsPerPage + 1} to{' '}
+                    {Math.min(currentPage * itemsPerPage, totalItems)} of
+                </>
+            );
+    }
+
     return (
         <div className='table__pagination'>
             <div className='table__pagination-info'>
-                Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
-                {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} results
+                Showing {renderPageCount()} {totalItems} results
             </div>
             <div className='table__pagination-controls'>
                 <button

@@ -6,19 +6,22 @@ export default function Modal({ isOpen, onClose, children }) {
     const modalRef = useRef(null);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                onClose();
+        const handleEvent = (event) => {
+            if (event.type === 'mousedown') {
+                if (modalRef.current && !modalRef.current.contains(event.target)) {
+                    onClose();
+                }
+            } else if (event.type === 'keydown') {
+                for (const key of ['Escape', 'Enter', 'Tab']) {
+                    if (event.key === key) onClose();
+                }
             }
         };
 
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
+        for (const eventType of ['mousedown', 'keydown']) {
+            if (isOpen) document.addEventListener(eventType, handleEvent);
+            return () => document.removeEventListener(eventType, handleEvent);
         }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
     }, [isOpen, onClose]);
 
     if (!isOpen) {

@@ -2,7 +2,7 @@ import './employeeList.scss';
 import { Link } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
 import { employeeListAtom } from '../../store/atoms';
-import Table from '../../components/table/Table';
+import Table from 'react-simple-table-component';
 
 export default function EmployeeList() {
     const employeeList = useAtomValue(employeeListAtom);

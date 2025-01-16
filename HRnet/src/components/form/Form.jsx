@@ -1,16 +1,18 @@
 import './form.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { convertString } from 'str-case-converter';
 import { useAtom, useAtomValue } from 'jotai';
 import { defaultFormDataAtom, formDataAtom, formErrorAtom } from '../../store/atoms';
 import FormFieldSet from './subcomponents/FormFieldset';
 import FormField from './subcomponents/FormField';
+import Modal from '../modal/Modal';
 
 export default function Form({ name, fields, onSubmit, ...props }) {
     const defaultFormData = useAtomValue(defaultFormDataAtom);
     const [formData, setFormData] = useAtom(formDataAtom);
     const [formError, setFormError] = useAtom(formErrorAtom);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         console.table(formData);
@@ -29,6 +31,7 @@ export default function Form({ name, fields, onSubmit, ...props }) {
                 ...formData,
                 [camelFormName]: { ...defaultFormData[camelFormName] },
             });
+            setIsModalOpen(true);
             return;
         }
         if (result.error) {
@@ -58,6 +61,9 @@ export default function Form({ name, fields, onSubmit, ...props }) {
                 )}
                 <button className={`${kebabFormName}-form__submit`}>Save</button>
             </form>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <p>Employee Created!</p>
+            </Modal>
         </div>
     );
 }

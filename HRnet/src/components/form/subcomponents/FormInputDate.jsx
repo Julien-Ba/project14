@@ -15,6 +15,12 @@ export default function FormInputDate({ inputName, formName, ...props }) {
     const camelInputName = convertString.toCamel(inputName);
     const kebabInputName = convertString.toKebab(inputName);
 
+    function formatDate(date) {
+        if (!date) return '';
+        // only keep the first part of the date, ignore the time etc ...
+        return date.toISOString().split('T')[0];
+    }
+
     return (
         <DatePicker
             className={`${kebabFormName}-form__input`}
@@ -31,7 +37,7 @@ export default function FormInputDate({ inputName, formName, ...props }) {
                     ...formData,
                     [camelFormName]: {
                         ...formData[camelFormName],
-                        [camelInputName]: date,
+                        [camelInputName]: formatDate(date),
                     },
                 });
             }}

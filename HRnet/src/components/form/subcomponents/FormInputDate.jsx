@@ -2,9 +2,11 @@ import { useAtom, useSetAtom } from 'jotai';
 import PropTypes from 'prop-types';
 import { formDataAtom, formErrorAtom } from '../../../store/atoms';
 import { convertString } from 'str-case-converter';
-import FormInputDate from './FormInputDate';
+import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
-export default function FormInput({ type, inputName, formName, ...props }) {
+export default function FormInputDate({ inputName, formName, ...props }) {
     const [formData, setFormData] = useAtom(formDataAtom);
     const setFormError = useSetAtom(formErrorAtom);
 
@@ -13,24 +15,23 @@ export default function FormInput({ type, inputName, formName, ...props }) {
     const camelInputName = convertString.toCamel(inputName);
     const kebabInputName = convertString.toKebab(inputName);
 
-    if (type === 'date') {
-        return <FormInputDate inputName={inputName} formName={formName} {...props} />;
-    }
-
     return (
-        <input
+        <DatePicker
             className={`${kebabFormName}-form__input`}
-            type={type ? type : 'text'}
             id={`${kebabFormName}-${kebabInputName}`}
             {...props}
+            format='dd/MM/yyyy'
+            dayPlaceholder='DD'
+            monthPlaceholder='MM'
+            yearPlaceholder='YYYY'
             value={formData[camelFormName]?.[camelInputName] || ''}
-            onChange={(event) => {
+            onChange={(date) => {
                 setFormError({});
                 setFormData({
                     ...formData,
                     [camelFormName]: {
                         ...formData[camelFormName],
-                        [camelInputName]: event.target.value,
+                        [camelInputName]: date,
                     },
                 });
             }}
@@ -38,8 +39,7 @@ export default function FormInput({ type, inputName, formName, ...props }) {
     );
 }
 
-FormInput.propTypes = {
+FormInputDate.propTypes = {
     inputName: PropTypes.string.isRequired,
     formName: PropTypes.string.isRequired,
-    type: PropTypes.string,
 };

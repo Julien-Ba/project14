@@ -113,6 +113,12 @@
             }
         }
 
+        .react-date-picker {
+            &__wrapper {
+                border: none;
+            }
+        }
+
         &__select {
             display: block;
             width: 100%;

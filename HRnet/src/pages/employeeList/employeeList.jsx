@@ -1,11 +1,20 @@
 import './employeeList.scss';
 import { Link } from 'react-router-dom';
-import { useAtomValue } from 'jotai';
-import { employeeListAtom } from '../../store/atoms';
+import { employeeService } from '../../services/api/employee';
 import Table from 'react-simple-table-component';
+import { useEffect, useState } from 'react';
 
 export default function EmployeeList() {
-    const employeeList = useAtomValue(employeeListAtom);
+    const [employeeList, setEmployeeList] = useState(null);
+
+    useEffect(() => {
+        async function fetchEmployees() {
+            const result = await employeeService.getAllEmployees();
+            setEmployeeList(result.data);
+        }
+        fetchEmployees();
+    }, []);
+
     const trimmedEmployeeList = employeeList
         ? employeeList.map(({ _id, __v, ...rest }) => rest)
         : [];

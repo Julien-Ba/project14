@@ -1,7 +1,6 @@
 import { atom } from 'jotai';
 import { departments } from '../data/departments';
 import { states } from '../data/states';
-import { employeeService } from '../services/api/employee';
 
 const privateDefaultFormData = {
     createEmployee: {
@@ -20,6 +19,3 @@ const privateDefaultFormData = {
 export const defaultFormDataAtom = atom(privateDefaultFormData);
 export const formDataAtom = atom({ ...privateDefaultFormData });
 export const formErrorAtom = atom({});
-
-const employeeList = await employeeService.getAllEmployees();
-export const employeeListAtom = atom(employeeList.data);

@@ -1,0 +1,99 @@
+@use '../../style/breakpoints';
+@use '../../style/colors';
+@use '../../style/placeholders';
+
+.form {
+    width: 100%;
+    max-width: 50rem;
+    padding: 1.5rem 2rem;
+    background-color: colors.$bg-white;
+    @extend %box-shadow;
+    @extend %radius-big;
+
+    &__title {
+        margin-block-end: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    &__form,
+    &__fieldset {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    &__fieldset {
+        padding: 1.5rem;
+        @extend %border;
+        @extend %radius;
+    }
+
+    &__field {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    &__legend {
+        font-weight: 500;
+    }
+
+    &__label {
+        margin-inline-start: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    &__input,
+    &__select {
+        padding: 0.75rem 1rem;
+        text-overflow: ellipsis;
+        @extend %border;
+        @extend %focus-primary;
+        @extend %radius-small;
+    }
+
+    .react-date-picker {
+        &__wrapper {
+            border: none;
+        }
+    }
+
+    &__select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1rem;
+    }
+
+    &__submit {
+        justify-self: end;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        background-color: colors.$primary;
+        color: colors.$bg-white;
+        font-weight: 500;
+        transition: background-color 200ms;
+        @extend %radius-small;
+        @extend %focus-primary;
+
+        &:hover {
+            background-color: colors.$primary-hover;
+        }
+    }
+
+    .error {
+        margin-inline-start: 1rem;
+        color: colors.$error;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: breakpoints.$mobile) {
+    .form {
+        border-radius: 0;
+        box-shadow: none;
+    }
+}

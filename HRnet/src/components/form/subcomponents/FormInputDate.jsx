@@ -11,9 +11,7 @@ export default function FormInputDate({ inputName, formName, ...props }) {
     const setFormError = useSetAtom(formErrorAtom);
 
     const camelFormName = convertString.toCamel(formName);
-    const kebabFormName = convertString.toKebab(formName);
     const camelInputName = convertString.toCamel(inputName);
-    const kebabInputName = convertString.toKebab(inputName);
 
     function formatDate(date) {
         if (!date) return '';
@@ -23,8 +21,7 @@ export default function FormInputDate({ inputName, formName, ...props }) {
 
     return (
         <DatePicker
-            className={`${kebabFormName}-form__input`}
-            id={`${kebabFormName}-${kebabInputName}`}
+            className='form__input'
             {...props}
             format='dd/MM/yyyy'
             dayPlaceholder='DD'

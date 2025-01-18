@@ -1,5 +1,5 @@
 import './form.scss';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { convertString } from 'str-case-converter';
 import { useAtom, useAtomValue } from 'jotai';
@@ -13,10 +13,6 @@ export default function Form({ name, fields, onSubmit, ...props }) {
     const [formData, setFormData] = useAtom(formDataAtom);
     const [formError, setFormError] = useAtom(formErrorAtom);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        console.table(formData);
-    }, [formData]);
 
     const camelFormName = convertString.toCamel(name);
     const kebabFormName = convertString.toKebab(name);
@@ -44,9 +40,9 @@ export default function Form({ name, fields, onSubmit, ...props }) {
     };
 
     return (
-        <div className={`${kebabFormName}-form`}>
-            <h2 className={`${kebabFormName}-form__title`}>{titleFormName}</h2>
-            <form action='' onSubmit={handleSubmit} className={`${kebabFormName}-form__form`}>
+        <div className={`form ${kebabFormName}-form`}>
+            <h2 className='form__title'>{titleFormName}</h2>
+            <form action='' onSubmit={handleSubmit} className='form__form'>
                 {fields.map((field) =>
                     field.type === 'fieldset' ? (
                         <FormFieldSet
@@ -59,7 +55,7 @@ export default function Form({ name, fields, onSubmit, ...props }) {
                         <FormField key={field.name} formName={name} field={field} {...props} />
                     )
                 )}
-                <button className={`${kebabFormName}-form__submit`}>Save</button>
+                <button className='form__submit'>Save</button>
             </form>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <p>Employee Created!</p>

@@ -1,3 +1,4 @@
+@use '../../style/breakpoints';
 @use '../../style/colors';
 @use '../../style/placeholders';
 
@@ -8,6 +9,7 @@
     padding: 1rem;
 
     &__title {
+        text-align: center;
         font-size: 3rem;
         font-weight: 500;
     }

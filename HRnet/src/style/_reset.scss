@@ -52,6 +52,20 @@ select {
     text-transform: none;
 }
 
+select {
+    background-color: inherit;
+}
+
+[type='number']::-webkit-outer-spin-button,
+[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+[type='number'] {
+    -moz-appearance: textfield;
+}
+
 :-moz-focusring {
     outline: auto;
 }

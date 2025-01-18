@@ -13,8 +13,7 @@ export default function FormSelect({ options, selectName, formName, ...props }) 
 
     return (
         <select
-            className={`${kebabFormName}-form__select`}
-            id={`${kebabFormName}-${kebabSelectName}`}
+            className='form__select'
             name={`${kebabFormName}-${kebabSelectName}`}
             value={formData[camelFormName]?.[camelSelectName] || ''}
             onChange={(event) =>
@@ -29,7 +28,7 @@ export default function FormSelect({ options, selectName, formName, ...props }) 
             {...props}
         >
             {options.map((option) => (
-                <option className={`${kebabFormName}-form__option`} key={option.name || option}>
+                <option className='form__option' key={option.name || option}>
                     {option.name || option}
                 </option>
             ))}

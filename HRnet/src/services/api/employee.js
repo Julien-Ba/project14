@@ -1,6 +1,6 @@
 import { API_CONFIG } from '../config';
 
-const API_URL = API_CONFIG.BASE_URL;
+const API_URL = API_CONFIG.SERVER_URL;
 
 const connectionError = {
     success: false,

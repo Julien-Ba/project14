@@ -9,7 +9,9 @@ export default function FormInput({ type, inputName, formName, ...props }) {
     const setFormError = useSetAtom(formErrorAtom);
 
     const camelFormName = convertString.toCamel(formName);
+    const kebabFormName = convertString.toKebab(formName);
     const camelInputName = convertString.toCamel(inputName);
+    const kebabInputName = convertString.toKebab(inputName);
 
     if (type === 'date') {
         return <FormInputDate inputName={inputName} formName={formName} {...props} />;
@@ -19,6 +21,8 @@ export default function FormInput({ type, inputName, formName, ...props }) {
         <input
             className='form__input'
             type={type ? type : 'text'}
+            name={`${kebabFormName}-${kebabInputName}`}
+            id={`${kebabFormName}-${kebabInputName}`}
             {...props}
             value={formData[camelFormName]?.[camelInputName] || ''}
             onChange={(event) => {

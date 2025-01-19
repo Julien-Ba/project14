@@ -7,12 +7,16 @@ import { convertString } from 'str-case-converter';
 
 export default function FormField({ formName, field, ...props }) {
     const formError = useAtomValue(formErrorAtom);
+    const kebabFormName = convertString.toKebab(formName);
+    const kebabFieldName = convertString.toKebab(field.name);
     const camelFieldName = convertString.toCamel(field.name);
     const titleFieldName = convertString.toTitle(field.name);
 
     return (
         <div className='form__field'>
-            <label className='form__label'>{titleFieldName}</label>
+            <label className='form__label' htmlFor={`${kebabFormName}-${kebabFieldName}`}>
+                {titleFieldName}
+            </label>
             {field?.type === 'select' ? (
                 <FormSelect
                     options={field.options}

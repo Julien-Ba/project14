@@ -1,4 +1,4 @@
-import './App.scss';
+import './app.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'jotai';
 import CreateEmployee from './pages/createEmployee/CreateEmployee';

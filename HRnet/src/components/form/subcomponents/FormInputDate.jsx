@@ -28,9 +28,15 @@ export default function FormInputDate({ inputName, formName, ...props }) {
             id={`${kebabFormName}-${kebabInputName}`}
             {...props}
             format='dd/MM/yyyy'
+            dayAriaLabel='Day'
             dayPlaceholder='DD'
+            monthAriaLabel='Month'
             monthPlaceholder='MM'
+            yearAriaLabel='Year'
             yearPlaceholder='YYYY'
+            nativeInputAriaLabel='Date'
+            calendarAriaLabel='Toggle calendar'
+            clearAriaLabel='Clear value'
             value={formData[camelFormName]?.[camelInputName] || ''}
             onChange={(date) => {
                 setFormError({});

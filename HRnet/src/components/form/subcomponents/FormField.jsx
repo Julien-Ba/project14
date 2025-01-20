@@ -14,7 +14,11 @@ export default function FormField({ formName, field, ...props }) {
 
     return (
         <div className='form__field'>
-            <label className='form__label' htmlFor={`${kebabFormName}-${kebabFieldName}`}>
+            <label
+                id={`${kebabFormName}-${kebabFieldName}-label`}
+                className='form__label'
+                htmlFor={`${kebabFormName}-${kebabFieldName}`}
+            >
                 {titleFieldName}
             </label>
             {field?.type === 'select' ? (

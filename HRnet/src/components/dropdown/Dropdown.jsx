@@ -133,6 +133,7 @@ export default function Dropdown({ id, className, options, onSelect }) {
                 role='combobox'
                 aria-expanded={isOpen}
                 aria-haspopup='listbox'
+                aria-controls={`${id}-listbox`}
                 ref={dropdownRef}
             >
                 <div className='dropdown__input-wrapper'>
@@ -145,14 +146,14 @@ export default function Dropdown({ id, className, options, onSelect }) {
                         onClick={handleInputClick}
                         value={inputValue}
                         onChange={handleInputChange}
-                        aria-activedescendant={
-                            isOpen && filteredOptions.length > 0
-                                ? `${id}-option-${convertString.toKebab(
+                        {...(isOpen && filteredOptions.length > 0
+                            ? {
+                                  'aria-activedescendant': `${id}-option-${convertString.toKebab(
                                       filteredOptions[activeIndex].name ||
                                           filteredOptions[activeIndex]
-                                  )}`
-                                : undefined
-                        }
+                                  )}`,
+                              }
+                            : {})}
                     />
                     <ChevronDown className='dropdown__icon' aria-hidden='true' rotate={isOpen} />
                 </div>
@@ -164,7 +165,9 @@ export default function Dropdown({ id, className, options, onSelect }) {
                                 return (
                                     <li
                                         role='option'
-                                        aria-selected={inputValue === optionName}
+                                        aria-selected={
+                                            inputValue === optionName || index === activeIndex
+                                        }
                                         key={optionName}
                                         id={`${id}-option-${convertString.toKebab(optionName)}`}
                                         onClick={() => handleSelect(optionName)}

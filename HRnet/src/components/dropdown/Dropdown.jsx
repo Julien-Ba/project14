@@ -19,6 +19,7 @@ export default function Dropdown({ id, className, options, onSelect }) {
             setIsOpen(false);
             setInputValue(option);
             setActiveIndex(0);
+            // push to the macro task queue to make sure it reset the options after the filtering once it has been selected
             setTimeout(() => {
                 setFilteredOptions(options);
             }, 0);
@@ -141,8 +142,8 @@ export default function Dropdown({ id, className, options, onSelect }) {
                         className={className ? `${className} dropdown__input` : 'dropdown__input'}
                         type='text'
                         aria-autocomplete='list'
-                        aria-controls={`${id}-listbox`}
                         id={id}
+                        name={id}
                         onClick={handleInputClick}
                         value={inputValue}
                         onChange={handleInputChange}

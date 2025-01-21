@@ -5,15 +5,31 @@ import { convertString } from 'str-case-converter';
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
+import { useCallback, useEffect } from 'react';
 
 export default function FormInputDate({ inputName, formName, ...props }) {
+    const kebabFormName = useCallback(() => {
+        return convertString.toKebab(formName);
+    }, [formName]);
+    const kebabInputName = useCallback(() => {
+        return convertString.toKebab(inputName);
+    }, [inputName]);
+
+    useEffect(() => {
+        // set an id on the first input to associate with the label for better accessibility
+        const inputElement = document.querySelector(
+            `input[name=${kebabFormName()}-${kebabInputName()}] ~ .react-date-picker__inputGroup__input`
+        );
+        if (inputElement) {
+            inputElement.id = `${kebabFormName()}-${kebabInputName()}`;
+        }
+    }, [kebabFormName, kebabInputName]);
+
     const [formData, setFormData] = useAtom(formDataAtom);
     const setFormError = useSetAtom(formErrorAtom);
 
     const camelFormName = convertString.toCamel(formName);
-    const kebabFormName = convertString.toKebab(formName);
     const camelInputName = convertString.toCamel(inputName);
-    const kebabInputName = convertString.toKebab(inputName);
 
     function formatDate(date) {
         if (!date) return '';
@@ -24,8 +40,7 @@ export default function FormInputDate({ inputName, formName, ...props }) {
     return (
         <DatePicker
             className='form__input'
-            name={`${kebabFormName}-${kebabInputName}`}
-            id={`${kebabFormName}-${kebabInputName}`}
+            name={`${kebabFormName()}-${kebabInputName()}`}
             {...props}
             format='dd/MM/yyyy'
             dayAriaLabel='Day'

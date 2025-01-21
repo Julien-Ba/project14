@@ -1,9 +1,10 @@
 import './dropdown.scss';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { convertString } from 'str-case-converter';
-import { ChevronDown } from '../icons';
+import DropdownSpacer from './subcomponents/DropdownSpacer';
+import DropdownOptions from './subcomponents/DropdownOptions';
+import DropdownInput from './subcomponents/DropdownInput';
 
 export default function Dropdown({ id, className, options, onSelect }) {
     const dropdownRef = useRef(null);
@@ -14,6 +15,9 @@ export default function Dropdown({ id, className, options, onSelect }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [spacerPosition, setSpacerPosition] = useState(0);
 
+    /**
+     * Handler function used in both effect and element
+     */
     const handleSelect = useCallback(
         (option) => {
             setIsOpen(false);
@@ -28,17 +32,10 @@ export default function Dropdown({ id, className, options, onSelect }) {
         [options, onSelect]
     );
 
+    /**
+     * Event handlers effect
+     */
     useEffect(() => {
-        if (isOpen && dropdownRef.current && listRef.current) {
-            // calculate the distance between the top of the screen and the bottom of the dropdown
-            // allow us to setup a 'margin-bottom' on a position absolute element
-            const dropdownRect = dropdownRef.current.getBoundingClientRect();
-            const listHeight = listRef.current.offsetHeight;
-            const absolutePosition =
-                dropdownRect.top + window.scrollY + dropdownRect.height + listHeight;
-            setSpacerPosition(absolutePosition);
-        }
-
         function scrollIntoView(index) {
             if (!filteredOptions[index]) return;
             const element = document.getElementById(
@@ -63,7 +60,7 @@ export default function Dropdown({ id, className, options, onSelect }) {
         }
 
         function handleCloseKeys(event) {
-            if (event.key === 'Escape') {
+            if (event.key === 'Escape' || event.key === 'Tab') {
                 closeDropdown();
             } else if (event.key === 'Enter') {
                 if (filteredOptions.length > 0) {
@@ -105,6 +102,9 @@ export default function Dropdown({ id, className, options, onSelect }) {
         return () => controller.abort();
     }, [isOpen, activeIndex, filteredOptions, id, handleSelect]);
 
+    /**
+     * Search filter effect
+     */
     useEffect(() => {
         const filtered = options.filter((option) => {
             const optionName = option.name || option;
@@ -114,6 +114,23 @@ export default function Dropdown({ id, className, options, onSelect }) {
         setActiveIndex(0);
     }, [inputValue, options]);
 
+    /**
+     * calculate the distance between the top of the screen and the bottom of the dropdown
+     * allow us to setup a 'margin-bottom' on a position absolute element
+     */
+    useEffect(() => {
+        if (isOpen && dropdownRef.current && listRef.current) {
+            const dropdownRect = dropdownRef.current.getBoundingClientRect();
+            const listHeight = listRef.current.offsetHeight;
+            const absolutePosition =
+                dropdownRect.top + window.scrollY + dropdownRect.height + listHeight;
+            setSpacerPosition(absolutePosition);
+        }
+    }, [isOpen]);
+
+    /**
+     * Handler functions used directly in elements
+     */
     function handleInputChange(event) {
         const value = event.target.value;
         setInputValue(value);
@@ -128,81 +145,37 @@ export default function Dropdown({ id, className, options, onSelect }) {
     }
 
     return (
-        <>
-            <div
-                className='dropdown'
-                role='combobox'
-                aria-expanded={isOpen}
-                aria-haspopup='listbox'
-                aria-controls={`${id}-listbox`}
-                ref={dropdownRef}
-            >
-                <div className='dropdown__input-wrapper'>
-                    <input
-                        className={className ? `${className} dropdown__input` : 'dropdown__input'}
-                        type='text'
-                        aria-autocomplete='list'
+        <div
+            className='dropdown'
+            role='combobox'
+            aria-expanded={isOpen}
+            aria-haspopup='listbox'
+            aria-controls={`${id}-listbox`}
+            ref={dropdownRef}
+        >
+            <DropdownInput
+                className={className}
+                id={id}
+                handleInputClick={handleInputClick}
+                inputValue={inputValue}
+                handleInputChange={handleInputChange}
+                filteredOptions={filteredOptions}
+                activeIndex={activeIndex}
+                isOpen={isOpen}
+            />
+            {isOpen && (
+                <ul role='listbox' ref={listRef} id={`${id}-listbox`} aria-labelledby={id}>
+                    <DropdownOptions
+                        filteredOptions={filteredOptions}
+                        inputValue={inputValue}
+                        activeIndex={activeIndex}
                         id={id}
-                        name={id}
-                        onClick={handleInputClick}
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        {...(isOpen && filteredOptions.length > 0
-                            ? {
-                                  'aria-activedescendant': `${id}-option-${convertString.toKebab(
-                                      filteredOptions[activeIndex].name ||
-                                          filteredOptions[activeIndex]
-                                  )}`,
-                              }
-                            : {})}
+                        handleSelect={handleSelect}
                     />
-                    <ChevronDown className='dropdown__icon' aria-hidden='true' rotate={isOpen} />
-                </div>
-                {isOpen && (
-                    <ul role='listbox' ref={listRef} id={`${id}-listbox`} aria-labelledby={id}>
-                        {filteredOptions.length > 0 ? (
-                            filteredOptions.map((option, index) => {
-                                const optionName = option.name || option;
-                                return (
-                                    <li
-                                        role='option'
-                                        aria-selected={
-                                            inputValue === optionName || index === activeIndex
-                                        }
-                                        key={optionName}
-                                        id={`${id}-option-${convertString.toKebab(optionName)}`}
-                                        onClick={() => handleSelect(optionName)}
-                                        className={
-                                            index === activeIndex ? 'dropdown__option--active' : ''
-                                        }
-                                    >
-                                        {optionName}
-                                    </li>
-                                );
-                            })
-                        ) : (
-                            <li className='dropdown__no-results'>No matches found</li>
-                        )}
-                    </ul>
-                )}
-            </div>
-            {isOpen &&
-                // place the spacer in the root so we can set the position relative to it
-                createPortal(
-                    <div
-                        className='spacer'
-                        style={{
-                            position: 'absolute',
-                            height: '1rem',
-                            left: 0,
-                            right: 0,
-                            top: `${spacerPosition}px`,
-                        }}
-                        aria-hidden='true'
-                    />,
-                    document.getElementById('root')
-                )}
-        </>
+                </ul>
+            )}
+            <DropdownSpacer isOpen={isOpen} spacerPosition={spacerPosition} />
+        </div>
     );
 }
 

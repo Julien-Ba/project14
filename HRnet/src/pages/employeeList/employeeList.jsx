@@ -6,11 +6,19 @@ import { useEffect, useState } from 'react';
 
 export default function EmployeeList() {
     const [employeeList, setEmployeeList] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function fetchEmployees() {
-            const result = await employeeService.getAllEmployees();
-            setEmployeeList(result.data);
+            try {
+                setIsLoading(true);
+                const result = await employeeService.getAllEmployees();
+                setEmployeeList(result.data);
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setIsLoading(false);
+            }
         }
         fetchEmployees();
     }, []);
@@ -22,7 +30,13 @@ export default function EmployeeList() {
     return (
         <main className='employee-list'>
             <h1 className='employee-list__title'>Current Employees</h1>
-            <Table name={'employee_list'} data={trimmedEmployeeList} />
+            {isLoading ? (
+                <div style={{ height: '668px' }}>
+                    <p>Loading...</p>
+                </div>
+            ) : (
+                <Table name={'employee_list'} data={trimmedEmployeeList} />
+            )}
             <Link className='employee-list__link' to='/'>
                 Home
             </Link>

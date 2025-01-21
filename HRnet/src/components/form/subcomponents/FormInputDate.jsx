@@ -33,8 +33,9 @@ export default function FormInputDate({ inputName, formName, ...props }) {
 
     function formatDate(date) {
         if (!date) return '';
-        // only keep the first part of the date, ignore the time etc ...
-        return date.toISOString().split('T')[0];
+        // Fri Jan 31 2025 00:00:00 GMT+0100 (Central European Standard Time)
+        // 2025-01-31
+        return date.toLocaleDateString().split('/').reverse().join('-');
     }
 
     return (
@@ -52,6 +53,7 @@ export default function FormInputDate({ inputName, formName, ...props }) {
             nativeInputAriaLabel='Date'
             calendarAriaLabel='Toggle calendar'
             clearAriaLabel='Clear value'
+            locale='gmt'
             value={formData[camelFormName]?.[camelInputName] || ''}
             onChange={(date) => {
                 setFormError({});

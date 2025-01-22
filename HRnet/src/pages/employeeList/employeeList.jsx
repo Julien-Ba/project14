@@ -5,21 +5,22 @@ import Table from 'react-simple-table-component';
 import { useEffect, useState } from 'react';
 
 export default function EmployeeList() {
-    const [employeeList, setEmployeeList] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [employeeList, setEmployeeList] = useState(null);
 
     useEffect(() => {
         async function fetchEmployees() {
             try {
-                setIsLoading(true);
                 const result = await employeeService.getAllEmployees();
                 setEmployeeList(result.data);
             } catch (error) {
-                console.error('Error:', error);
+                setError(error);
             } finally {
                 setIsLoading(false);
             }
         }
+        setIsLoading(true);
         fetchEmployees();
     }, []);
 
@@ -31,9 +32,13 @@ export default function EmployeeList() {
         <main className='employee-list'>
             <h1 className='employee-list__title'>Current Employees</h1>
             {isLoading ? (
-                <div style={{ height: '668px' }}>
-                    <p>Loading...</p>
-                </div>
+                error ? (
+                    <p>Error!</p>
+                ) : (
+                    <div style={{ height: '668px' }}>
+                        <p>Loading...</p>
+                    </div>
+                )
             ) : (
                 <Table name={'employee_list'} data={trimmedEmployeeList} />
             )}

@@ -8,11 +8,14 @@ const port = process.env.PORT || 3001;
 
 app.use(cors({ origin: [process.env.APP, process.env.APP_DEV, process.env.APP_PREVIEW] }));
 app.use(express.json());
-
 app.use('/api/employees', employeeRoutes);
 
 connectDB();
 
 app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
+    console.log(
+        `Server listening on ${
+            process.env.NODE_ENV === 'development' ? 'http://localhost:' : 'port: '
+        }${port}`
+    );
 });

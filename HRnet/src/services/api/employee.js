@@ -1,6 +1,6 @@
 import { API_CONFIG } from '../config';
 
-const API_URL = API_CONFIG.SERVER_URL;
+const API_URL = import.meta.env.DEV ? API_CONFIG.LOCAL_URL : API_CONFIG.SERVER_URL;
 
 const connectionError = {
     success: false,

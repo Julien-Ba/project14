@@ -1,4 +1,4 @@
-import { employeeService } from '../../services/api/employee';
+import { employeeService } from '@services/api/employee';
 import validateForm from './createEmployeeFormVaildation';
 
 export default async function submitEmployeeCreation(formData) {

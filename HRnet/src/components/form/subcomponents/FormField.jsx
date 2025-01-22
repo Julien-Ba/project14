@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import FormInput from './FormInput';
 import FormSelect from './FormSelect';
 import { useAtomValue } from 'jotai';
-import { formErrorAtom } from '../../../store/atoms';
+import { formErrorAtom } from '@store/atoms';
 import { convertString } from 'str-case-converter';
 
 export default function FormField({ formName, field, ...props }) {

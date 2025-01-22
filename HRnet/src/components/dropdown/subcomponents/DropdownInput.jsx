@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { convertString } from 'str-case-converter';
-import { ChevronDown } from '../../icons';
+import { ChevronDown } from '@components/icons';
 
 export default function DropdownInput({
     className,

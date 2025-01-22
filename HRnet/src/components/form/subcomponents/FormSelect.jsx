@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { useAtom } from 'jotai';
-import { formDataAtom } from '../../../store/atoms';
+import { formDataAtom } from '@store/atoms';
 import { convertString } from 'str-case-converter';
-import Dropdown from '../../dropdown/Dropdown';
+import Dropdown from '@components/dropdown/Dropdown';
 
 export default function FormSelect({ options, selectName, formName, ...props }) {
     const [formData, setFormData] = useAtom(formDataAtom);
@@ -29,30 +29,6 @@ export default function FormSelect({ options, selectName, formName, ...props }) 
                 }
                 {...props}
             />
-            {/* 
-            <select
-                className='form__select'
-                name={`${kebabFormName}-${kebabSelectName}`}
-                id={`${kebabFormName}-${kebabSelectName}`}
-                value={formData[camelFormName]?.[camelSelectName] || ''}
-                onChange={(event) =>
-                    setFormData({
-                        ...formData,
-                        [camelFormName]: {
-                            ...formData[camelFormName],
-                            [camelSelectName]: event.target.value,
-                        },
-                    })
-                }
-                {...props}
-            >
-                {options.map((option) => (
-                    <option className='form__option' key={option.name || option}>
-                        {option.name || option}
-                    </option>
-                ))}
-            </select> 
-            */}
         </>
     );
 }

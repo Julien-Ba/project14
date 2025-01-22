@@ -1,6 +1,6 @@
 import './employeeList.scss';
 import { Link } from 'react-router-dom';
-import { employeeService } from '../../services/api/employee';
+import { employeeService } from '@services/api/employee';
 import Table from 'react-simple-table-component';
 import { useEffect, useState } from 'react';
 

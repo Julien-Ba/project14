@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from 'jotai';
 import PropTypes from 'prop-types';
-import { formDataAtom, formErrorAtom } from '../../../store/atoms';
+import { formDataAtom, formErrorAtom } from '@store/atoms';
 import { convertString } from 'str-case-converter';
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';

@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from 'jotai';
 import PropTypes from 'prop-types';
-import { formDataAtom, formErrorAtom } from '../../../store/atoms';
+import { formDataAtom, formErrorAtom } from '@store/atoms';
 import { convertString } from 'str-case-converter';
 import FormInputDate from './FormInputDate';
 

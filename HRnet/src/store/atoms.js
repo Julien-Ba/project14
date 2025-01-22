@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
-import { departments } from '../data/departments';
-import { states } from '../data/states';
+import { departments } from '@data/departments';
+import { states } from '@data/states';
 
 const privateDefaultFormData = {
     createEmployee: {

@@ -3,10 +3,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { convertString } from 'str-case-converter';
 import { useAtom, useAtomValue } from 'jotai';
-import { defaultFormDataAtom, formDataAtom, formErrorAtom } from '../../store/atoms';
+import { defaultFormDataAtom, formDataAtom, formErrorAtom } from '@store/atoms';
 import FormFieldSet from './subcomponents/FormFieldset';
 import FormField from './subcomponents/FormField';
-import Modal from '../modal/Modal';
+import Modal from '@components/modal/Modal';
 
 export default function Form({ name, fields, onSubmit, ...props }) {
     const defaultFormData = useAtomValue(defaultFormDataAtom);

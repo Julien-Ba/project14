@@ -38,7 +38,8 @@ export default function Dropdown({ id, className, options, onSelect, value = '' 
      */
     useEffect(() => {
         setInputValue(value);
-    }, [value]);
+        setFilteredOptions(options);
+    }, [value, options]);
 
     /**
      * Event handlers effect
@@ -115,13 +116,16 @@ export default function Dropdown({ id, className, options, onSelect, value = '' 
      * Search filter effect
      */
     useEffect(() => {
-        const filtered = options.filter((option) => {
-            const optionName = option.name || option;
-            return optionName.toLowerCase().includes(inputValue.toLowerCase());
-        });
-        setFilteredOptions(filtered);
-        setActiveIndex(0);
-    }, [inputValue, options]);
+        // avoid filter when a default value is set
+        if (inputValue === '' || inputValue !== value) {
+            const filtered = options.filter((option) => {
+                const optionName = option.name || option;
+                return optionName.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            setFilteredOptions(filtered);
+            setActiveIndex(0);
+        }
+    }, [inputValue, options, value]);
 
     /**
      * calculate the distance between the top of the screen and the bottom of the dropdown

@@ -18,6 +18,7 @@ export default function FormSelect({ options, selectName, formName, ...props }) 
                 id={`${kebabFormName}-${kebabSelectName}`}
                 className={'form__input'}
                 options={options}
+                value={formData[camelFormName]?.[camelSelectName] || ''}
                 onSelect={(value) =>
                     setFormData({
                         ...formData,

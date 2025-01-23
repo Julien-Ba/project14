@@ -81,7 +81,9 @@ export default function Form({ name, fields, onSubmit, ...props }) {
                         <FormField key={field.name} formName={name} field={field} {...props} />
                     )
                 )}
-                <button className='form__submit'>Save</button>
+                <button className='form__submit' type='submit'>
+                    Save
+                </button>
             </form>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <p>Employee Created!</p>

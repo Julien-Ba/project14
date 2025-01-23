@@ -63,6 +63,7 @@ export default function Dropdown({ id, className, options, onSelect }) {
             if (event.key === 'Escape' || event.key === 'Tab') {
                 closeDropdown();
             } else if (event.key === 'Enter') {
+                event.preventDefault();
                 if (filteredOptions.length > 0) {
                     const selectedOption = filteredOptions[activeIndex];
                     handleSelect(selectedOption.name || selectedOption);

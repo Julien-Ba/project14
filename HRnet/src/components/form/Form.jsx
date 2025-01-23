@@ -1,22 +1,48 @@
 import './form.scss';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { convertString } from 'str-case-converter';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { defaultFormDataAtom, formDataAtom, formErrorAtom } from '@store/atoms';
 import FormFieldSet from './subcomponents/FormFieldset';
 import FormField from './subcomponents/FormField';
 import Modal from '@components/modal/Modal';
 
 export default function Form({ name, fields, onSubmit, ...props }) {
-    const defaultFormData = useAtomValue(defaultFormDataAtom);
+    const [defaultFormData, setDefaultFormData] = useAtom(defaultFormDataAtom);
     const [formData, setFormData] = useAtom(formDataAtom);
     const [formError, setFormError] = useAtom(formErrorAtom);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const camelFormName = convertString.toCamel(name);
-    const kebabFormName = convertString.toKebab(name);
-    const titleFormName = convertString.toTitle(name);
+
+    const defaultFields = useMemo(() => {
+        const unwrappedFields = {};
+        const unwrapFields = (fieldsArray) => {
+            fieldsArray.forEach((field) => {
+                if (field.type !== 'fieldset') {
+                    unwrappedFields[convertString.toCamel(field.name)] = '';
+                } else {
+                    unwrapFields(field.fields);
+                }
+            });
+        };
+        unwrapFields(fields);
+        return unwrappedFields;
+    }, [fields]);
+
+    useEffect(() => {
+        if (!defaultFormData[camelFormName]) {
+            setDefaultFormData((prev) => ({
+                ...prev,
+                [camelFormName]: defaultFields,
+            }));
+            setFormData((prev) => ({
+                ...prev,
+                [camelFormName]: defaultFields,
+            }));
+        }
+    }, [camelFormName, defaultFormData, setDefaultFormData, defaultFields, setFormData]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -40,9 +66,9 @@ export default function Form({ name, fields, onSubmit, ...props }) {
     };
 
     return (
-        <div className={`form ${kebabFormName}-form`}>
-            <h2 className='form__title'>{titleFormName}</h2>
-            <form action='' onSubmit={handleSubmit} className='form__form'>
+        <div className={`form ${convertString.toKebab(name)}-form`}>
+            <h2 className='form__title'>{convertString.toTitle(name)}</h2>
+            <form onSubmit={handleSubmit} className='form__form'>
                 {fields.map((field) =>
                     field.type === 'fieldset' ? (
                         <FormFieldSet

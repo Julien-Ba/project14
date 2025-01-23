@@ -6,7 +6,7 @@ import DropdownSpacer from './subcomponents/DropdownSpacer';
 import DropdownOptions from './subcomponents/DropdownOptions';
 import DropdownInput from './subcomponents/DropdownInput';
 
-export default function Dropdown({ id, className, options, onSelect }) {
+export default function Dropdown({ id, className, options, onSelect, value = '' }) {
     const dropdownRef = useRef(null);
     const listRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +31,14 @@ export default function Dropdown({ id, className, options, onSelect }) {
         },
         [options, onSelect]
     );
+
+    /**
+     * Allow the value to be controlled by the parent
+     * eg: set a default value or reset it on form submit
+     */
+    useEffect(() => {
+        setInputValue(value);
+    }, [value]);
 
     /**
      * Event handlers effect
@@ -185,4 +193,5 @@ Dropdown.propTypes = {
     className: PropTypes.string,
     options: PropTypes.array.isRequired,
     onSelect: PropTypes.func,
+    value: PropTypes.string,
 };

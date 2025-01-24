@@ -12,7 +12,7 @@ export default function Form({ name, fields, onSubmit, ...props }) {
     const [defaultFormData, setDefaultFormData] = useAtom(defaultFormDataAtom);
     const [formData, setFormData] = useAtom(formDataAtom);
     const [formError, setFormError] = useAtom(formErrorAtom);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(true);
 
     const camelFormName = convertString.toCamel(name);
 
@@ -46,6 +46,7 @@ export default function Form({ name, fields, onSubmit, ...props }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        document.activeElement?.blur();
         setFormError({});
         const result = await onSubmit(formData[camelFormName]);
         if (result.isValid) {
